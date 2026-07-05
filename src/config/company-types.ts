@@ -1,0 +1,8 @@
+export const companyTypes = [
+  "SMALL_BUSINESS",
+  "MEDIUM_BUSINESS",
+  "LARGE_ENTERPRISE",
+  "GOVERNMENT",
+  "NON_PROFIT",
+  "TRAINING_PROVIDER"
+];
