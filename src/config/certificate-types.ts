@@ -1,0 +1,6 @@
+export const certificateTypes = [
+  "DIGITAL_CERTIFICATE",
+  "QR_CODE_CERTIFICATE",
+  "COMPANY_CERTIFICATE",
+  "INTERNATIONAL_CERTIFICATE"
+];
