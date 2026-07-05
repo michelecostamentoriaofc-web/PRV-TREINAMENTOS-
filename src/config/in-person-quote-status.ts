@@ -1,0 +1,10 @@
+export const inPersonQuoteStatus = [
+  "REQUESTED",
+  "UNDER_REVIEW",
+  "WAITING_CLIENT_APPROVAL",
+  "APPROVED",
+  "WAITING_PAYMENT",
+  "SCHEDULED",
+  "COMPLETED",
+  "CANCELLED"
+];
