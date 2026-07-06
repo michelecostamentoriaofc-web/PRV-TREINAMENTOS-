@@ -1,8 +1,6 @@
 export const dashboardNavigation = [
   { label: "Owner Dashboard", href: "/owner" },
-  { label: "Students", href: "/student" },
-  { label: "Companies", href: "/company" },
-  { label: "Instructors", href: "/instructor" },
+  { label: "Users", href: "/users" },
   { label: "Courses", href: "/courses" },
   { label: "Live Classes", href: "/live-classes" },
   { label: "Certificates", href: "/certificates" },
