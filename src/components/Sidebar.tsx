@@ -1,12 +1,12 @@
-import { navigationItems } from "@/config/navigation";
+import { dashboardNavigation } from "@/config/dashboard-navigation";
 
 export function Sidebar() {
   return (
-    <aside>
+    <aside style={{ width: 260, padding: 24, background: "#020817" }}>
       <h2>PRV Training</h2>
 
-      <nav>
-        {navigationItems.map((item) => (
+      <nav style={{ display: "grid", gap: 12 }}>
+        {dashboardNavigation.map((item) => (
           <a key={item.href} href={item.href}>
             {item.label}
           </a>
