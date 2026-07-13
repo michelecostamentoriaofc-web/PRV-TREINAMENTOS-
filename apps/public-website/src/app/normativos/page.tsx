@@ -2,212 +2,466 @@
 
 import { useMemo, useState } from "react";
 
-const normas = [
-  { numero: "NR 01", titulo: "Disposições Gerais e Gerenciamento de Riscos Ocupacionais" },
-  { numero: "NR 02", titulo: "Inspeção Prévia — conteúdo histórico" },
-  { numero: "NR 03", titulo: "Embargo e Interdição" },
-  { numero: "NR 04", titulo: "Serviços Especializados em Segurança e Medicina do Trabalho" },
-  { numero: "NR 05", titulo: "Comissão Interna de Prevenção de Acidentes e de Assédio" },
-  { numero: "NR 06", titulo: "Equipamento de Proteção Individual" },
-  { numero: "NR 07", titulo: "Programa de Controle Médico de Saúde Ocupacional" },
-  { numero: "NR 08", titulo: "Edificações" },
-  { numero: "NR 09", titulo: "Avaliação e Controle das Exposições Ocupacionais" },
-  { numero: "NR 10", titulo: "Segurança em Instalações e Serviços em Eletricidade" },
-  { numero: "NR 11", titulo: "Transporte, Movimentação, Armazenagem e Manuseio de Materiais" },
-  { numero: "NR 12", titulo: "Segurança no Trabalho em Máquinas e Equipamentos" },
-  { numero: "NR 13", titulo: "Caldeiras, Vasos de Pressão, Tubulações e Tanques Metálicos" },
-  { numero: "NR 14", titulo: "Fornos" },
-  { numero: "NR 15", titulo: "Atividades e Operações Insalubres" },
-  { numero: "NR 16", titulo: "Atividades e Operações Perigosas" },
-  { numero: "NR 17", titulo: "Ergonomia" },
-  { numero: "NR 18", titulo: "Segurança e Saúde no Trabalho na Indústria da Construção" },
-  { numero: "NR 19", titulo: "Explosivos" },
-  { numero: "NR 20", titulo: "Segurança e Saúde com Inflamáveis e Combustíveis" },
-  { numero: "NR 21", titulo: "Trabalhos a Céu Aberto" },
-  { numero: "NR 22", titulo: "Segurança e Saúde Ocupacional na Mineração" },
-  { numero: "NR 23", titulo: "Proteção Contra Incêndios" },
-  { numero: "NR 24", titulo: "Condições Sanitárias e de Conforto nos Locais de Trabalho" },
-  { numero: "NR 25", titulo: "Resíduos Industriais" },
-  { numero: "NR 26", titulo: "Sinalização de Segurança" },
-  { numero: "NR 27", titulo: "Registro Profissional do Técnico de Segurança — conteúdo histórico" },
-  { numero: "NR 28", titulo: "Fiscalização e Penalidades" },
-  { numero: "NR 29", titulo: "Segurança e Saúde no Trabalho Portuário" },
-  { numero: "NR 30", titulo: "Segurança e Saúde no Trabalho Aquaviário" },
-  { numero: "NR 31", titulo: "Segurança e Saúde no Trabalho Rural" },
-  { numero: "NR 32", titulo: "Segurança e Saúde no Trabalho em Serviços de Saúde" },
-  { numero: "NR 33", titulo: "Segurança e Saúde nos Trabalhos em Espaços Confinados" },
-  { numero: "NR 34", titulo: "Condições de Trabalho na Indústria Naval" },
-  { numero: "NR 35", titulo: "Trabalho em Altura" },
-  { numero: "NR 36", titulo: "Segurança e Saúde em Empresas de Abate e Processamento de Carnes" },
-  { numero: "NR 37", titulo: "Segurança e Saúde em Plataformas de Petróleo" },
-  { numero: "NR 38", titulo: "Segurança e Saúde nas Atividades de Limpeza Urbana e Manejo de Resíduos Sólidos" },
+type Standard = {
+  number: string;
+  title: string;
+  status?: "Disponível" | "Histórico";
+};
+
+const standards: Standard[] = [
+  {
+    number: "NR 01",
+    title:
+      "Disposições Gerais e Gerenciamento de Riscos Ocupacionais",
+  },
+  {
+    number: "NR 02",
+    title: "Inspeção Prévia",
+    status: "Histórico",
+  },
+  {
+    number: "NR 03",
+    title: "Embargo e Interdição",
+  },
+  {
+    number: "NR 04",
+    title:
+      "Serviços Especializados em Segurança e Medicina do Trabalho",
+  },
+  {
+    number: "NR 05",
+    title:
+      "Comissão Interna de Prevenção de Acidentes e de Assédio",
+  },
+  {
+    number: "NR 06",
+    title: "Equipamentos de Proteção Individual",
+  },
+  {
+    number: "NR 07",
+    title:
+      "Programa de Controle Médico de Saúde Ocupacional",
+  },
+  {
+    number: "NR 08",
+    title: "Edificações",
+  },
+  {
+    number: "NR 09",
+    title:
+      "Avaliação e Controle das Exposições Ocupacionais",
+  },
+  {
+    number: "NR 10",
+    title:
+      "Segurança em Instalações e Serviços em Eletricidade",
+  },
+  {
+    number: "NR 11",
+    title:
+      "Transporte, Movimentação, Armazenagem e Manuseio de Materiais",
+  },
+  {
+    number: "NR 12",
+    title:
+      "Segurança no Trabalho em Máquinas e Equipamentos",
+  },
+  {
+    number: "NR 13",
+    title:
+      "Caldeiras, Vasos de Pressão, Tubulações e Tanques Metálicos",
+  },
+  {
+    number: "NR 14",
+    title: "Fornos",
+  },
+  {
+    number: "NR 15",
+    title: "Atividades e Operações Insalubres",
+  },
+  {
+    number: "NR 16",
+    title: "Atividades e Operações Perigosas",
+  },
+  {
+    number: "NR 17",
+    title: "Ergonomia",
+  },
+  {
+    number: "NR 18",
+    title:
+      "Segurança e Saúde no Trabalho na Indústria da Construção",
+  },
+  {
+    number: "NR 19",
+    title: "Explosivos",
+  },
+  {
+    number: "NR 20",
+    title:
+      "Segurança e Saúde no Trabalho com Inflamáveis e Combustíveis",
+  },
+  {
+    number: "NR 21",
+    title: "Trabalhos a Céu Aberto",
+  },
+  {
+    number: "NR 22",
+    title:
+      "Segurança e Saúde Ocupacional na Mineração",
+  },
+  {
+    number: "NR 23",
+    title: "Proteção Contra Incêndios",
+  },
+  {
+    number: "NR 24",
+    title:
+      "Condições Sanitárias e de Conforto nos Locais de Trabalho",
+  },
+  {
+    number: "NR 25",
+    title: "Resíduos Industriais",
+  },
+  {
+    number: "NR 26",
+    title: "Sinalização de Segurança",
+  },
+  {
+    number: "NR 27",
+    title:
+      "Registro Profissional do Técnico de Segurança do Trabalho",
+    status: "Histórico",
+  },
+  {
+    number: "NR 28",
+    title: "Fiscalização e Penalidades",
+  },
+  {
+    number: "NR 29",
+    title:
+      "Segurança e Saúde no Trabalho Portuário",
+  },
+  {
+    number: "NR 30",
+    title:
+      "Segurança e Saúde no Trabalho Aquaviário",
+  },
+  {
+    number: "NR 31",
+    title:
+      "Segurança e Saúde no Trabalho Rural",
+  },
+  {
+    number: "NR 32",
+    title:
+      "Segurança e Saúde no Trabalho em Serviços de Saúde",
+  },
+  {
+    number: "NR 33",
+    title:
+      "Segurança e Saúde nos Trabalhos em Espaços Confinados",
+  },
+  {
+    number: "NR 34",
+    title:
+      "Condições e Meio Ambiente de Trabalho na Indústria da Construção, Reparação e Desmonte Naval",
+  },
+  {
+    number: "NR 35",
+    title: "Trabalho em Altura",
+  },
+  {
+    number: "NR 36",
+    title:
+      "Segurança e Saúde no Trabalho em Empresas de Abate e Processamento de Carnes",
+  },
+  {
+    number: "NR 37",
+    title:
+      "Segurança e Saúde em Plataformas de Petróleo",
+  },
+  {
+    number: "NR 38",
+    title:
+      "Segurança e Saúde nas Atividades de Limpeza Urbana e Manejo de Resíduos Sólidos",
+  },
 ];
 
-export default function NormativosPage() {
-  const [busca, setBusca] = useState("");
-  const [pais, setPais] = useState("Brasil");
-  const [idioma, setIdioma] = useState("Português");
+const countries = [
+  "Brasil",
+  "Estados Unidos",
+  "Portugal",
+  "Canadá",
+  "Reino Unido",
+  "Austrália",
+  "Espanha",
+  "França",
+  "Alemanha",
+  "Itália",
+  "México",
+];
 
-  const normasFiltradas = useMemo(() => {
-    const termo = busca.toLowerCase().trim();
+const languages = [
+  "Português",
+  "English",
+  "Español",
+  "Français",
+  "Deutsch",
+  "Italiano",
+];
 
-    return normas.filter(
-      (norma) =>
-        norma.numero.toLowerCase().includes(termo) ||
-        norma.titulo.toLowerCase().includes(termo)
-    );
-  }, [busca]);
+export default function NormativeTrainingPage() {
+  const [search, setSearch] = useState("");
+  const [country, setCountry] = useState("Brasil");
+  const [language, setLanguage] = useState("Português");
+
+  const filteredStandards = useMemo(() => {
+    const normalizedSearch = search.toLowerCase().trim();
+
+    if (!normalizedSearch) {
+      return standards;
+    }
+
+    return standards.filter((standard) => {
+      return (
+        standard.number.toLowerCase().includes(normalizedSearch) ||
+        standard.title.toLowerCase().includes(normalizedSearch)
+      );
+    });
+  }, [search]);
 
   return (
-    <main className="pagina">
-      <header className="topo">
-        <a href="/" className="marca">
-          <div className="escudo">PRV</div>
+    <main className="page">
+      <header className="header">
+        <a href="/" className="brand">
+          <div className="brandShield">PRV</div>
 
-          <div>
+          <div className="brandText">
             <strong>PRV</strong>
             <span>Treinamentos Normativos</span>
           </div>
         </a>
 
-        <div className="seletores">
-          <select value={pais} onChange={(e) => setPais(e.target.value)}>
-            <option>Brasil</option>
-            <option>Estados Unidos</option>
-            <option>Portugal</option>
-            <option>Canadá</option>
-            <option>Reino Unido</option>
-            <option>Austrália</option>
+        <div className="headerControls">
+          <select
+            value={country}
+            onChange={(event) => setCountry(event.target.value)}
+            aria-label="Selecionar país"
+          >
+            {countries.map((countryName) => (
+              <option key={countryName}>{countryName}</option>
+            ))}
           </select>
 
-          <select value={idioma} onChange={(e) => setIdioma(e.target.value)}>
-            <option>Português</option>
-            <option>English</option>
-            <option>Español</option>
-            <option>Français</option>
-            <option>Deutsch</option>
-            <option>Italiano</option>
+          <select
+            value={language}
+            onChange={(event) => setLanguage(event.target.value)}
+            aria-label="Selecionar idioma"
+          >
+            {languages.map((languageName) => (
+              <option key={languageName}>{languageName}</option>
+            ))}
           </select>
 
-          <a href="/dashboard" className="painel">
+          <a href="/dashboard" className="dashboardButton">
             Meu painel
           </a>
         </div>
       </header>
 
-      <section className="banner">
-        <div>
-          <span className="etiqueta">
+      <section className="hero">
+        <div className="heroContent">
+          <span className="heroLabel">
             SEGURANÇA • QUALIDADE • CONFORMIDADE
           </span>
 
           <h1>Treinamentos Normativos</h1>
 
           <p>
-            Biblioteca profissional de cursos de segurança do trabalho,
-            normas regulamentadoras, aulas ao vivo, materiais, simulados e
-            certificados.
+            Plataforma profissional de cursos, aulas ao vivo,
+            treinamentos presenciais, materiais, simulados,
+            avaliações e certificados digitais.
           </p>
 
-          <div className="destaques">
+          <div className="highlights">
             <span>✓ 38 normas cadastradas</span>
-            <span>✓ Cursos ao vivo e gravados</span>
+            <span>✓ Cursos gravados</span>
+            <span>✓ Aulas ao vivo</span>
+            <span>✓ Treinamentos presenciais</span>
             <span>✓ Certificação digital</span>
             <span>✓ Tradução internacional</span>
           </div>
         </div>
 
-        <div className="logoGrande">
-          <div className="iconeLogo">PRV</div>
+        <div className="heroLogo">
+          <div className="largeShield">PRV</div>
           <strong>PRV</strong>
           <span>TREINAMENTOS</span>
         </div>
       </section>
 
-      <section className="filtros">
+      <section className="catalogHeader">
         <div>
-          <h2>Catálogo de cursos — {pais}</h2>
+          <h2>Catálogo de cursos — {country}</h2>
+
           <p>
-            Selecione uma norma para visualizar módulos, aulas, materiais,
-            provas e certificados.
+            Escolha uma norma para acessar aulas, materiais,
+            avaliações, simulados e certificados.
           </p>
         </div>
 
         <input
           type="search"
           placeholder="Buscar por NR ou nome do treinamento..."
-          value={busca}
-          onChange={(e) => setBusca(e.target.value)}
+          value={search}
+          onChange={(event) => setSearch(event.target.value)}
         />
       </section>
 
-      <section className="grade">
-        {normasFiltradas.map((norma, indice) => {
-          const codigo = norma.numero.toLowerCase().replace(" ", "-");
+      <section className="courseGrid">
+        {filteredStandards.map((standard) => {
+          const courseCode = standard.number
+            .toLowerCase()
+            .replace(/\s+/g, "-");
 
           return (
-            <article className="cartao" key={norma.numero}>
-              <div className="cabecalhoCartao">
-                <span className="numero">{norma.numero}</span>
-                <span className="status">
-                  {indice === 1 || indice === 26 ? "Histórico" : "Disponível"}
+            <article className="courseCard" key={standard.number}>
+              <div className="courseCardHeader">
+                <span className="standardNumber">
+                  {standard.number}
+                </span>
+
+                <span
+                  className={
+                    standard.status === "Histórico"
+                      ? "courseStatus historical"
+                      : "courseStatus"
+                  }
+                >
+                  {standard.status ?? "Disponível"}
                 </span>
               </div>
 
-              <h3>{norma.titulo}</h3>
+              <h3>{standard.title}</h3>
 
-              <p className="descricao">
-                Curso completo com conteúdo teórico, aulas, material de apoio,
+              <p className="courseDescription">
+                Curso completo com conteúdo teórico, aulas,
+                material de apoio, treinamento presencial,
                 exercícios, avaliação e certificado.
               </p>
 
-              <div className="informacoes">
+              <div className="courseInformation">
                 <span>🎥 Aulas gravadas</span>
+                <span>📡 Aulas ao vivo</span>
+                <span>🏢 Treinamento presencial</span>
                 <span>📄 Apostila</span>
                 <span>✅ Simulado</span>
                 <span>🏆 Certificado</span>
               </div>
 
-              <div className="rodapeCartao">
-                <span>Idioma: {idioma}</span>
+              <div className="courseFooter">
+                <span>Idioma: {language}</span>
 
-                <a href={`/normativos/${codigo}`}>
-                  Acessar curso →
-                </a>
+                <div className="courseActions">
+                  <a href={`/normativos/${courseCode}`}>
+                    Acessar curso
+                  </a>
+
+                  <a
+                    href={`/empresas/solicitar-treinamento?curso=${courseCode}`}
+                    className="inPersonButton"
+                  >
+                    Solicitar presencial
+                  </a>
+                </div>
               </div>
             </article>
           );
         })}
       </section>
 
-      {normasFiltradas.length === 0 && (
-        <div className="semResultado">
+      {filteredStandards.length === 0 && (
+        <div className="emptyState">
           Nenhum treinamento foi encontrado.
         </div>
       )}
+
+      <section className="internationalSection">
+        <div>
+          <span className="internationalLabel">
+            PLATAFORMA INTERNACIONAL
+          </span>
+
+          <h2>Treinamentos organizados por país</h2>
+
+          <p>
+            A plataforma poderá apresentar cursos e normas de
+            segurança ocupacional específicas para cada país.
+          </p>
+        </div>
+
+        <div className="countryGrid">
+          <article>
+            <span>🇧🇷</span>
+            <strong>Brasil</strong>
+            <small>Normas Regulamentadoras</small>
+          </article>
+
+          <article>
+            <span>🇺🇸</span>
+            <strong>Estados Unidos</strong>
+            <small>OSHA</small>
+          </article>
+
+          <article>
+            <span>🇨🇦</span>
+            <strong>Canadá</strong>
+            <small>CCOHS e CSA</small>
+          </article>
+
+          <article>
+            <span>🇬🇧</span>
+            <strong>Reino Unido</strong>
+            <small>HSE</small>
+          </article>
+
+          <article>
+            <span>🇵🇹</span>
+            <strong>Portugal</strong>
+            <small>ACT e legislação europeia</small>
+          </article>
+
+          <article>
+            <span>🌐</span>
+            <strong>Outros países</strong>
+            <small>Catálogo internacional</small>
+          </article>
+        </div>
+      </section>
 
       <style jsx>{`
         * {
           box-sizing: border-box;
         }
 
-        .pagina {
+        .page {
           min-height: 100vh;
-          padding: 0 28px 50px;
+          padding: 0 28px 60px;
           color: #f7fbff;
           background:
             radial-gradient(
               circle at 50% 0%,
-              rgba(0, 123, 255, 0.16),
-              transparent 33%
+              rgba(0, 123, 255, 0.17),
+              transparent 34%
             ),
             linear-gradient(180deg, #020b16, #031322);
           font-family: Arial, Helvetica, sans-serif;
         }
 
-        .topo {
+        .header {
           width: min(1500px, 100%);
-          min-height: 82px;
+          min-height: 84px;
           margin: auto;
           display: flex;
           align-items: center;
@@ -216,41 +470,41 @@ export default function NormativosPage() {
           border-bottom: 1px solid #17324c;
         }
 
-        .marca {
+        .brand {
           display: flex;
           align-items: center;
-          gap: 12px;
+          gap: 13px;
           color: white;
           text-decoration: none;
         }
 
-        .escudo {
-          width: 52px;
-          height: 58px;
+        .brandShield {
+          width: 54px;
+          height: 62px;
           display: grid;
           place-items: center;
           border: 3px solid #138cff;
-          border-radius: 14px 14px 20px 20px;
+          border-radius: 15px 15px 22px 22px;
           background: #061626;
           font-weight: 900;
         }
 
-        .marca strong {
+        .brandText strong {
           display: block;
-          font-size: 30px;
+          font-size: 31px;
           line-height: 1;
         }
 
-        .marca span {
+        .brandText span {
           display: block;
-          margin-top: 4px;
+          margin-top: 5px;
           color: #188cff;
           font-size: 11px;
           letter-spacing: 2px;
           text-transform: uppercase;
         }
 
-        .seletores {
+        .headerControls {
           display: flex;
           align-items: center;
           gap: 10px;
@@ -262,13 +516,19 @@ export default function NormativosPage() {
           border: 1px solid #24445f;
           background: #071827;
           border-radius: 9px;
+          outline: none;
         }
 
         select {
           padding: 11px 12px;
         }
 
-        .painel {
+        select:focus,
+        input:focus {
+          border-color: #138cff;
+        }
+
+        .dashboardButton {
           padding: 12px 18px;
           border-radius: 9px;
           background: #087ef5;
@@ -277,11 +537,11 @@ export default function NormativosPage() {
           font-weight: 700;
         }
 
-        .banner {
+        .hero {
           width: min(1500px, 100%);
-          min-height: 340px;
+          min-height: 350px;
           margin: 24px auto 18px;
-          padding: 44px;
+          padding: 46px;
           display: flex;
           align-items: center;
           justify-content: space-between;
@@ -291,18 +551,18 @@ export default function NormativosPage() {
           background:
             radial-gradient(
               circle at 75% 50%,
-              rgba(0, 112, 255, 0.27),
-              transparent 34%
+              rgba(0, 112, 255, 0.28),
+              transparent 35%
             ),
             linear-gradient(100deg, #071725, #0b2948);
           box-shadow: 0 24px 70px rgba(0, 0, 0, 0.3);
         }
 
-        .banner > div:first-child {
-          max-width: 820px;
+        .heroContent {
+          max-width: 850px;
         }
 
-        .etiqueta {
+        .heroLabel {
           color: #32a9ff;
           font-size: 14px;
           font-weight: 800;
@@ -315,21 +575,21 @@ export default function NormativosPage() {
           line-height: 1;
         }
 
-        .banner p {
+        .heroContent p {
           max-width: 780px;
           color: #b0c0d1;
           font-size: 19px;
           line-height: 1.6;
         }
 
-        .destaques {
+        .highlights {
           margin-top: 25px;
           display: flex;
           flex-wrap: wrap;
           gap: 13px;
         }
 
-        .destaques span {
+        .highlights span {
           padding: 9px 12px;
           border: 1px solid #1e527c;
           border-radius: 999px;
@@ -338,12 +598,12 @@ export default function NormativosPage() {
           font-size: 13px;
         }
 
-        .logoGrande {
+        .heroLogo {
           min-width: 310px;
           text-align: center;
         }
 
-        .iconeLogo {
+        .largeShield {
           width: 145px;
           height: 155px;
           margin: 0 auto 10px;
@@ -356,13 +616,13 @@ export default function NormativosPage() {
           font-weight: 900;
         }
 
-        .logoGrande strong {
+        .heroLogo strong {
           display: block;
           font-size: 72px;
           line-height: 1;
         }
 
-        .logoGrande span {
+        .heroLogo span {
           display: block;
           margin-top: 8px;
           color: #1592ff;
@@ -370,32 +630,32 @@ export default function NormativosPage() {
           letter-spacing: 6px;
         }
 
-        .filtros {
+        .catalogHeader {
           width: min(1500px, 100%);
-          margin: 28px auto 18px;
+          margin: 30px auto 18px;
           display: flex;
           align-items: end;
           justify-content: space-between;
           gap: 25px;
         }
 
-        .filtros h2 {
+        .catalogHeader h2 {
           margin: 0 0 8px;
-          font-size: 28px;
+          font-size: 29px;
         }
 
-        .filtros p {
+        .catalogHeader p {
           margin: 0;
           color: #93a8bc;
         }
 
-        .filtros input {
-          width: min(430px, 100%);
+        .catalogHeader input {
+          width: min(450px, 100%);
           padding: 15px 17px;
           font-size: 15px;
         }
 
-        .grade {
+        .courseGrid {
           width: min(1500px, 100%);
           margin: auto;
           display: grid;
@@ -403,8 +663,8 @@ export default function NormativosPage() {
           gap: 16px;
         }
 
-        .cartao {
-          min-height: 350px;
+        .courseCard {
+          min-height: 390px;
           padding: 22px;
           display: flex;
           flex-direction: column;
@@ -413,21 +673,23 @@ export default function NormativosPage() {
           background: linear-gradient(180deg, #0a1e31, #061521);
           transition:
             transform 0.2s ease,
-            border-color 0.2s ease;
+            border-color 0.2s ease,
+            box-shadow 0.2s ease;
         }
 
-        .cartao:hover {
+        .courseCard:hover {
           transform: translateY(-5px);
           border-color: #178fff;
+          box-shadow: 0 18px 40px rgba(0, 0, 0, 0.25);
         }
 
-        .cabecalhoCartao {
+        .courseCardHeader {
           display: flex;
           align-items: center;
           justify-content: space-between;
         }
 
-        .numero {
+        .standardNumber {
           padding: 10px 13px;
           border-radius: 9px;
           background: #0d7ff2;
@@ -435,57 +697,77 @@ export default function NormativosPage() {
           font-weight: 900;
         }
 
-        .status {
+        .courseStatus {
           color: #33dc89;
           font-size: 12px;
         }
 
-        .cartao h3 {
+        .courseStatus.historical {
+          color: #ffc45b;
+        }
+
+        .courseCard h3 {
           margin: 22px 0 12px;
-          min-height: 66px;
+          min-height: 70px;
           font-size: 18px;
           line-height: 1.35;
         }
 
-        .descricao {
+        .courseDescription {
           margin: 0;
           color: #9eb0c2;
           font-size: 14px;
           line-height: 1.55;
         }
 
-        .informacoes {
+        .courseInformation {
           margin: 20px 0;
           display: grid;
-          grid-template-columns: repeat(2, 1fr);
+          grid-template-columns: repeat(2, minmax(0, 1fr));
           gap: 9px;
           color: #bdd0e2;
           font-size: 12px;
         }
 
-        .rodapeCartao {
+        .courseFooter {
           margin-top: auto;
           padding-top: 16px;
           display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 10px;
+          flex-direction: column;
+          gap: 13px;
           border-top: 1px solid #17324b;
           color: #91a7bb;
           font-size: 12px;
         }
 
-        .rodapeCartao a {
-          padding: 10px 12px;
+        .courseActions {
+          display: flex;
+          gap: 8px;
+          flex-wrap: wrap;
+        }
+
+        .courseActions a {
+          flex: 1;
+          min-width: 120px;
+          padding: 11px 12px;
           border-radius: 8px;
           background: #0b6fd3;
           color: white;
+          text-align: center;
           text-decoration: none;
           font-weight: 700;
           white-space: nowrap;
         }
 
-        .semResultado {
+        .courseActions .inPersonButton {
+          background: #167a43;
+        }
+
+        .courseActions a:hover {
+          filter: brightness(1.12);
+        }
+
+        .emptyState {
           width: min(1500px, 100%);
           margin: 35px auto;
           padding: 30px;
@@ -496,65 +778,138 @@ export default function NormativosPage() {
           background: #071827;
         }
 
+        .internationalSection {
+          width: min(1500px, 100%);
+          margin: 40px auto 0;
+          padding: 34px;
+          border: 1px solid #183d5d;
+          border-radius: 20px;
+          background: linear-gradient(180deg, #081b2d, #061420);
+        }
+
+        .internationalLabel {
+          color: #32a9ff;
+          font-size: 12px;
+          font-weight: 800;
+          letter-spacing: 3px;
+        }
+
+        .internationalSection h2 {
+          margin: 12px 0 8px;
+          font-size: 30px;
+        }
+
+        .internationalSection p {
+          color: #9eb0c2;
+          line-height: 1.6;
+        }
+
+        .countryGrid {
+          margin-top: 25px;
+          display: grid;
+          grid-template-columns: repeat(6, minmax(0, 1fr));
+          gap: 12px;
+        }
+
+        .countryGrid article {
+          padding: 18px;
+          display: flex;
+          flex-direction: column;
+          gap: 7px;
+          border: 1px solid #1b405f;
+          border-radius: 12px;
+          background: #08192a;
+        }
+
+        .countryGrid article > span {
+          font-size: 28px;
+        }
+
+        .countryGrid strong {
+          font-size: 14px;
+        }
+
+        .countryGrid small {
+          color: #93a8bc;
+        }
+
         @media (max-width: 1180px) {
-          .grade {
+          .courseGrid {
             grid-template-columns: repeat(3, minmax(0, 1fr));
           }
 
-          .logoGrande {
+          .countryGrid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+          }
+
+          .heroLogo {
             min-width: 240px;
           }
         }
 
         @media (max-width: 850px) {
-          .pagina {
+          .page {
             padding: 0 15px 40px;
           }
 
-          .topo,
-          .filtros {
+          .header,
+          .catalogHeader {
             align-items: stretch;
             flex-direction: column;
             padding: 18px 0;
           }
 
-          .seletores {
+          .headerControls {
             flex-wrap: wrap;
           }
 
-          .banner {
+          .hero {
             padding: 30px 22px;
           }
 
-          .logoGrande {
+          .heroLogo {
             display: none;
           }
 
-          .grade {
+          .courseGrid {
             grid-template-columns: repeat(2, minmax(0, 1fr));
           }
 
-          .filtros input {
+          .catalogHeader input {
             width: 100%;
           }
         }
 
         @media (max-width: 560px) {
-          .grade {
+          .courseGrid,
+          .countryGrid {
             grid-template-columns: 1fr;
           }
 
-          .banner {
+          .hero {
             min-height: auto;
           }
 
-          .etiqueta {
+          .heroLabel {
             font-size: 11px;
             letter-spacing: 2px;
           }
 
-          .cartao h3 {
+          .courseCard h3 {
             min-height: auto;
+          }
+
+          .courseInformation {
+            grid-template-columns: 1fr;
+          }
+
+          .headerControls select,
+          .dashboardButton {
+            width: 100%;
+          }
+
+          .dashboardButton {
+            text-align: center;
           }
         }
       `}</style>
